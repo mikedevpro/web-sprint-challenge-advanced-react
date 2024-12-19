@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
+
+const URL = 'http://localhost:9000/api/result'
 
 // Suggested initial states
-const initialMessage = ''
-const initialEmail = ''
-const initialSteps = 0
-const initialIndex = 4 // the index the "B" is at
+const [message, setMessage] = useState('')
+const [email, setEmail] = useState()
+const [steps, setSteps] = useState(initialSteps)
+const [index, setIndex] = useState(4) // the index the "B" is at
 
 export default function AppFunctional(props) {
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
@@ -40,8 +43,13 @@ export default function AppFunctional(props) {
     // You will need this to update the value of the input.
   }
 
-  function onSubmit(evt) {
+  function onSubmit = evt => {
     // Use a POST request to send a payload to the server.
+    axios.post(URL)
+    .then(res => {
+      this.setState({ ...this.state, })
+    })
+    .catch(this.setAxiosResponseError)
   }
 
   return (
