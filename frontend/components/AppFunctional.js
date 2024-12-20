@@ -4,16 +4,21 @@ import axios from 'axios'
 const URL = 'http://localhost:9000/api/result'
 
 // Suggested initial states
-const [message, setMessage] = useState('')
-const [email, setEmail] = useState()
-const [steps, setSteps] = useState(initialSteps)
-const [index, setIndex] = useState(4) // the index the "B" is at
+const initialMessage = ''
+const initialEmail = ''
+const initialSteps = 0
+const initialIndex = 4 // the index the "B" is at
 
 export default function AppFunctional(props) {
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
   // You can delete them and build your own logic from scratch.
+  const [message, setMessage] = useState(initialMessage);
+  const [email, setEmail] = useState(initialEmail);
+  const [steps, setSteps] = useState(initialSteps);
+  const [index, setIndex] = useState(initialIndex); // the index the "B" is at
 
   function getXY() {
+
     // It it not necessary to have a state to track the coordinates.
     // It's enough to know what index the "B" is at, to be able to calculate them.
   }
@@ -24,11 +29,16 @@ export default function AppFunctional(props) {
     // returns the fully constructed string.
   }
 
-  function reset() {
+  const reset = () => {
+    setMessage({...message, message: ''});
+    setEmail({...email, email: ''});
+    setSteps({...steps, steps: 0})
+    setIndex({...index, index: 4})
     // Use this helper to reset all states to their initial values.
   }
 
   function getNextIndex(direction) {
+    let nextIndex = index
     // This helper takes a direction ("left", "up", etc) and calculates what the next index
     // of the "B" would be. If the move is impossible because we are at the edge of the grid,
     // this helper should return the current index unchanged.
@@ -39,24 +49,26 @@ export default function AppFunctional(props) {
     // and change any states accordingly.
   }
 
-  function onChange(evt) {
+  const onChange = (evt) => {
+    const{id, value} = evt.target
+    if (id === 'email'){
+      setEmail (value)
+    }
+  }
     // You will need this to update the value of the input.
+  
+
+  const onSubmit = (evt) => {
+    // Use a POST request to send a payload to the server.
+    
   }
 
-  function onSubmit = evt => {
-    // Use a POST request to send a payload to the server.
-    axios.post(URL)
-    .then(res => {
-      this.setState({ ...this.state, })
-    })
-    .catch(this.setAxiosResponseError)
-  }
 
   return (
     <div id="wrapper" className={props.className}>
       <div className="info">
-        <h3 id="coordinates">Coordinates (2, 2)</h3>
-        <h3 id="steps">You moved 0 times</h3>
+        <h3 id="coordinates">{`Coordinates ${getXYMessage()}`}</h3>
+        <h3 id="steps">You moved {steps} time$</h3>
       </div>
       <div id="grid">
         {
@@ -71,16 +83,17 @@ export default function AppFunctional(props) {
         <h3 id="message"></h3>
       </div>
       <div id="keypad">
-        <button id="left">LEFT</button>
-        <button id="up">UP</button>
-        <button id="right">RIGHT</button>
-        <button id="down">DOWN</button>
-        <button id="reset">reset</button>
+        <button onClick = {() => move('left')} id="left">LEFT</button>
+        <button onClick = {() => move('up')} id="up">UP</button>
+        <button onClick = {() => move('right')} id="right">RIGHT</button>
+        <button onClick = {() => move('down')} id="down">DOWN</button>
+        <button onClick = {() => reset()} id="reset">reset</button>
       </div>
-      <form>
-        <input id="email" type="email" placeholder="type email"></input>
-        <input id="submit" type="submit"></input>
+      <form onSubmit={onSubmit}>
+        <input id="email" type="email" placeholder="type email" onChange={onChange} value={email}></input>
+        <input id="submit" type="submit" value="submit"></input>
       </form>
     </div>
   )
 }
+
