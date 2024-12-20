@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 
-const URL = 'http://localhost:9000/api/result'
-
 // Suggested initial states
 const initialMessage = '(2, 2)'
 const initialEmail = ''
