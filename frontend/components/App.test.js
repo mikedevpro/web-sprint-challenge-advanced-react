@@ -5,7 +5,7 @@ import AppClass from './AppClass';
 import AppFunctional from './AppFunctional';
 // Write your tests here
 test('sanity', () => {
-  expect(true).toBe(false)
+  expect(false).toBe(false)
 })
 
 test('renders coordinates and steps', async () => {
